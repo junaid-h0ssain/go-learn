@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"errors"
-	"example/hello/api"
-	"go/token"
+	"go-learn/api"
+	"go-learn/tools"
 	"net/http"
 
 	log "github.com/sirupsen/logrus"
@@ -33,17 +33,19 @@ func Authorization(next http.Handler) http.Handler {
 		}
 
 		var loginDetails *tools.LoginDetails
-		loginDetails, err = (*database).GetUserLoginDetails(username)
-		if err != nil {
+		loginDetails = (*database).GetUserLoginDetails(username)
+		if loginDetails == nil {
 			log.Error(err)
 			api.RequestErrorHandler(w, err)
 			return
 		}
 
-		if loginDetails == nil || token != (*loginDetails).AuthToken {
+		if token != (*loginDetails).AuthToken {
 			log.Error(UnAuthorizedError)
 			api.RequestErrorHandler(w, UnAuthorizedError)
 			return
 		}
+
+		next.ServeHTTP(w, r)
 	})
 }

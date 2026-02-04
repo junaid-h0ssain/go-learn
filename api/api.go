@@ -1,9 +1,8 @@
 package api
 
 import (
-	"net/http"
 	"encoding/json"
-	"go-learn/handlers"
+	"net/http"
 )
 
 type CoinBalanceParams struct {
@@ -11,18 +10,18 @@ type CoinBalanceParams struct {
 }
 
 type CoinBalanceResponse struct {
-	Code int
-	Balance float64 
+	Code    int
+	Balance float64
 }
 
 type ErrorResponse struct {
-	Code int
+	Code    int
 	Message string
 }
 
-func writeError (w http.ResponseWriter, code int, message string) {
+func writeError(w http.ResponseWriter, code int, message string) {
 	response := ErrorResponse{
-		Code: code,
+		Code:    code,
 		Message: message,
 	}
 
