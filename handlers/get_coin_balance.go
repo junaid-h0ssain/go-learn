@@ -19,12 +19,6 @@ func GetCoinBalance(w http.ResponseWriter, r *http.Request) {
 		params.Username = r.URL.Query().Get("username")
 	}
 
-	if err != nil {
-		log.Error(err)
-		api.InternalServerErrorHandler(w, err)
-		return
-	}
-
 	var database *tools.DatabaseInterface
 	database, err = tools.NewDatabase()
 	if err != nil {
